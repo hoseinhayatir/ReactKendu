@@ -2,10 +2,10 @@
 import * as ReactDOM from 'react-dom';
 
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
-import { ProductsLoader } from './products-loader.jsx';
+import { ProductsLoader } from '../common/products-loader.jsx';
 import { IntlProvider, load, LocalizationProvider, loadMessages } from '@progress/kendo-react-intl';
 
-import esMessages from '../fa.json';
+import esMessages from '../common/fa.json';
 loadMessages(esMessages, 'fa-IR');
 
 
