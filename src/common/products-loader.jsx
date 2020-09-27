@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { toODataString } from '@progress/kendo-data-query';
 
 export class ProductsLoader extends React.Component {
-    baseUrl = 'http://localhost:5000/api/Customers';
+    baseUrl = 'http://localhost:61580/api/Customers';
     init = { method: 'GET', accept: 'application/json', headers: {} };
 
     lastSuccess = '';
@@ -15,7 +15,7 @@ export class ProductsLoader extends React.Component {
             return;
         }
         this.pending = toODataString(this.props.dataState);
-
+        console.log(this.pending);
         fetch(this.baseUrl + '', this.init)
             .then(response => response.json())
             .then(json => {

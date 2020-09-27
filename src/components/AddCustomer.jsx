@@ -3,10 +3,14 @@ import { Input, Checkbox } from '@progress/kendo-react-inputs';
 import { DatePicker } from '@progress/kendo-react-dateinputs';
 import { Form, Field } from '@progress/kendo-react-form';
 import { Dialog, DialogActionsBar } from '@progress/kendo-react-dialogs';
-import FormContainer from './FormContainer';
+import FormContainer from '../common/FormContainer';
+import Axios from 'axios';
+// import history from '../common/history';
+import { useHistory } from "react-router-dom";
+
 
 const emailRegex = new RegExp(/\S+@\S+\.\S+/);
-const emailValidator = (value) => (emailRegex.test(value) ? "" : "Please enter a valid email.");
+const emailValidator = (value) => (emailRegex.test(value) ? "" : "یک ایمیل معتبر وارد کنید.");
 
 const EmailInput = (fieldRenderProps) => {
     const { validationMessage, visited, ...others } = fieldRenderProps;
@@ -21,16 +25,17 @@ const EmailInput = (fieldRenderProps) => {
     );
 };
 
-const MyForm = (props) => {
+const AddCustomer = (props) => {
+    let history = useHistory();
+
     const initialForm = {
         firstName: '',
         lastName: '',
-        dateOfBirth: new Date(),
         email: '',
-        company: '',
-        userName: '',
-        password: '',
-        twoFactor: false
+        phone: '',
+        adress: '',
+        city: '',
+        state: ''
     };
     const [showDialog, setShowDialog] = useState(false)
 
@@ -38,11 +43,31 @@ const MyForm = (props) => {
         setShowDialog(!showDialog);
     }
 
-    const handleSubmit = () => {
-        setShowDialog(!showDialog);
+    const handleSubmit = (dataItem) => {
+
+        console.log(dataItem);
+        let formObject = {
+            firstName: dataItem.firstName,
+            lastName: dataItem.lastName,
+            email: dataItem.email,
+            phone: dataItem.phone,
+            adress: dataItem.adress,
+            city:dataItem.city,
+            state:dataItem.state
+        }
+        console.log(formObject);
+
+
+        Axios.post("http://localhost:61580/api/Customers", formObject).then(result => {
+
+            history.push('/Customers');
+        });
+
+        // alert(JSON.stringify(dataItem, null, 2))
     }
 
     return (
+        <div dir="rtl" className="k-rtl">
         <div className="container-fluid">
             {showDialog && <Dialog onClose={toggleDialog}>
                 <p style={{ margin: "25px", textAlign: "center" }}>The form is successfully submitted!</p>
@@ -58,25 +83,34 @@ const MyForm = (props) => {
                         render={(formRenderProps) => (
                             <form onSubmit={formRenderProps.onSubmit} className={'k-form'}>
                                 <fieldset>
-                                    <legend>User Details</legend>
+                                    <legend>ثبت کاربر</legend>
                                     <div>
-                                        <Field name={'firstName'} component={Input} label={'First name'} />
+                                        <Field name={'firstName'} component={Input} label={'نام شما'} />
                                     </div>
                                     <div>
-                                        <Field name={'lastName'} component={Input} label={'Last name'} />
+                                        <Field name={'lastName'} component={Input} label={'نام خانوادگی'} />
                                     </div>
-                                    <div style={{ marginTop: "1rem" }}>
+                                    {/* <div style={{ marginTop: "1rem" }}>
                                         <Field name={'dateOfBirth'} component={DatePicker} label={'Date of Birth'} />
+                                    </div> */}
+                                    <div>
+                                        <Field name={"email"} type={"email"} component={EmailInput} label={"ایمیل"} validator={emailValidator} />
                                     </div>
                                     <div>
-                                        <Field name={"email"} type={"email"} component={EmailInput} label={"Email"} validator={emailValidator} />
+                                        <Field name={'phone'} component={Input} label={'شماره همراه'} />
                                     </div>
                                     <div>
-                                        <Field name={'company'} component={Input} label={'Your Company'} />
+                                        <Field name={'adress'} component={Input} label={'آدرس'} />
+                                    </div>
+                                    <div>
+                                        <Field name={'city'} component={Input} label={'شهر'} />
+                                    </div>
+                                    <div>
+                                        <Field name={'state'} component={Input} label={'استان'} />
                                     </div>
                                 </fieldset>
 
-                                <fieldset>
+                                {/* <fieldset>
                                     <legend>Credentials</legend>
                                     <div>
                                         <Field name={'userName'} component={Input} label={'Username'} placeholder="Your username" />
@@ -87,24 +121,19 @@ const MyForm = (props) => {
                                     <div style={{ marginTop: "1rem" }}>
                                         <Field name={'twoFactor'} component={Checkbox} label={'Enable two-factor authentication'} />
                                     </div>
-                                </fieldset>
-
+                                </fieldset> */}
+                                <p><br/></p>
                                 <div className="text-right">
-                                    <button type="button" className="k-button" onClick={formRenderProps.onFormReset}>Clear</button> &nbsp;
-                                    <button type="submit" className="k-button k-primary" disabled={!formRenderProps.allowSubmit}>Submit</button>
+                                    <button type="button" className="k-button" onClick={formRenderProps.onFormReset}>پاک کردن</button> &nbsp;
+                                    <button type="submit" className="k-button k-primary" disabled={!formRenderProps.allowSubmit}>ثبت</button>
                                 </div>
                             </form>
                         )} />
                 </FormContainer>
-                <div className='col-12 col-lg-3 mt-3 mt-lg-0'>
-                    <h3>KendoReact Forms</h3>
-                    <p>KendoReact includes a wide offering of UI components that can be used to build forms, including CSS classes to easily create and structure gorgeous forms.</p>
-                    <p>The required inputs get validated upon form submission and if the validation fails, the form submission is prevented. Out of the box, KendoReact delivers components which support the HTML5 form validation and also provide props for configuring a set of minimal requirements for a component to be in a valid state.</p>
-                    <p>For documentation and demos of the many form-friendly components please visit their documentation (<a href="https://www.telerik.com/kendo-react-ui/components/dateinputs/?utm_medium=product&utm_source=vs&utm_campaign=kendo-ui-react-branding-vs-ext"> Date Inputs</a>, <a href="https://www.telerik.com/kendo-react-ui/components/dropdowns/?utm_medium=product&utm_source=vs&utm_campaign=kendo-ui-react-branding-vs-ext"> DropDowns</a>, <a href="https://www.telerik.com/kendo-react-ui/components/inputs/?utm_medium=product&utm_source=vs&utm_campaign=kendo-ui-react-branding-vs-ext">Inputs</a> etc).</p>
-                </div>
             </div>
+        </div>
         </div>
     )
 }
 
-export default MyForm;
+export default AddCustomer;

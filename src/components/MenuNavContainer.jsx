@@ -10,10 +10,11 @@ const MenuNavContainer = (props) => {
     }
     return (
         <Menu onSelect={onSelect}>
-            <MenuItem text="Home" data={{ route: '/' }}/>
-            <MenuItem text="MyForm" data={{ route: '/MyForm' }}/>
-            <MenuItem text="MyGrid" data={{ route: '/MyGrid' }}/>
-            <MenuItem text="MyDialog" data={{ route: '/MyDialog' }}/>
+            <MenuItem text="صفحه اصلی" data={{ route: '/' }}/>
+            <MenuItem text="افزودن کاربر" data={{ route: '/AddCustomer' }}/>
+            <MenuItem text="کاربران" data={{ route: '/Customers' }}/>
+            {/* <MenuItem text="MyDialog" data={{ route: '/MyDialog' }}/>
+            <MenuItem text="GridTest" data={{ route: '/GridTest' }}/> */}
 
         </Menu>
     );

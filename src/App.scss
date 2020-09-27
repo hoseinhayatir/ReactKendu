@@ -2,7 +2,9 @@
 
 .App {
   text-align: center;
+  direction: rtl;
 }
+body{direction: rtl;}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -137,3 +139,4 @@
 .social img {
   margin-left: 3rem;
 }
+legend{text-align: right;}
