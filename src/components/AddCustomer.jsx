@@ -33,6 +33,7 @@ class AddCustomer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
+    
 
     initialForm = {
         firstName: '',
